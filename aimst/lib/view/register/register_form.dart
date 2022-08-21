@@ -898,7 +898,7 @@ class _GetRegisterState extends State<Register> {
                   setState(() => selectedCountry = value!);
                 },
               )
-            : const Text("Not able to get data"),
+            : const Text("Getting data"),
         FxSpacing.height(22),
         Container(
           margin: FxSpacing.top(16),
@@ -968,7 +968,7 @@ class _GetRegisterState extends State<Register> {
                   setState(() => selectedCourse = value!);
                 },
               )
-            : const Text("Not able to get data"),
+            : const Text("Getting data"),
         FxSpacing.height(22),
         (facultyList.isNotEmpty)
             ? DropdownButtonFormField<String>(
@@ -1003,7 +1003,7 @@ class _GetRegisterState extends State<Register> {
                   setState(() => selectedFaculty = value!);
                 },
               )
-            : const Text("Not able to get data"),
+            : const Text("Getting data"),
         FxSpacing.height(22),
         (raceList.isNotEmpty)
             ? DropdownButtonFormField<String>(
@@ -1038,7 +1038,7 @@ class _GetRegisterState extends State<Register> {
                   setState(() => selectedCourse = value!);
                 },
               )
-            : const Text("Not able to get data"),
+            : const Text("Getting data"),
         FxSpacing.height(22),
         TextFormField(
           controller: joinedYearController,
