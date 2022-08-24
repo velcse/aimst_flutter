@@ -14,12 +14,13 @@ import 'package:flutterapp/widgets/text/text.dart';
 import 'package:flutterapp/widgets/container/container.dart';
 import 'package:flutterapp/themes/text_style.dart';
 import 'package:flutterapp/widgets/button/button.dart';
-import 'package:flutterapp/utils/images.dart';
 import 'package:flutterapp/localizations/en/constants.dart';
 import 'package:flutterapp/utils/validators/form_validate.dart';
 import 'package:flutterapp/blocs/user_bloc.dart';
 import 'package:flutterapp/view/register/register_form.dart';
 import 'package:flutterapp/view/dashboard/dashboard.dart';
+import 'package:flare_flutter/flare_actor.dart';
+import 'package:flutterapp/animations/auth/tracking_text_input.dart';
 
 String appTitleText = "";
 GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -70,7 +71,14 @@ class _GetLoginState extends State<Login> {
         await Preference.setInt(userId, response['result']['user_id']);
         await Preference.setString(
             userFirstName, response['result']['full_name']);
-        //await Preference.setString(userToken, decodeJson['result']['jwt']);
+        await Preference.setString(
+            userLastName, response['result']['last_name']);
+        await Preference.setString(
+            matrixNumber, response['result']['matrix_number']);
+        await Preference.setString(icNumber, response['result']['ic_number']);
+        await Preference.setString(course, response['result']['course']);
+        await Preference.setString(
+            userProfilePic, response['result']['profile_picture']);
         await Preference.setString(
             userEmail, response['result']['email_address']);
         // ignore: use_build_context_synchronously
@@ -95,154 +103,127 @@ class _GetLoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: MyAppBar(appTitleText, false),
+        //appBar: MyAppBar(appTitleText, false),
         backgroundColor: const Color(0xFFFFFFFF),
         endDrawer: const AppMenus(),
         body: Container(
-          margin: FxSpacing.top(0),
+          padding: FxSpacing.fromLTRB(
+              20, FxSpacing.safeAreaTop(context) + 64, 20, 20),
           child: ListView(
             padding: FxSpacing.fromLTRB(16, 25, 16, 16),
             children: [
-              FxText.displaySmall(
-                loginPageTitle,
-                fontWeight: 600,
-                fontSize: 25,
-                color: theme.colorScheme.primary,
-              ),
-              FxSpacing.height(40),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  FxContainer.bordered(
-                    border: Border.all(color: theme.colorScheme.primary),
-                    padding: FxSpacing.xy(28, 20),
-                    borderRadiusAll: Constant.containerRadius.medium,
-                    onTap: () {},
-                    child: Column(
-                      children: [
-                        Image(
-                          height: 64,
-                          width: 64,
-                          image: AssetImage(Images.student),
-                        ),
-                        FxSpacing.height(12),
-                        FxText.bodySmall(
-                          studentText,
-                          fontWeight: 600,
-                          color: theme.colorScheme.primary,
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              FxSpacing.height(40),
+              Container(
+                  height: 200,
+                  padding: const EdgeInsets.only(left: 30.0, right: 30.0),
+                  child: const FlareActor("assets/animations/rive/teddy.flr",
+                      shouldClip: false,
+                      alignment: Alignment.bottomCenter,
+                      fit: BoxFit.contain)),
               Form(
                 key: _formKey,
-                child: Column(
-                  children: [
-                    TextFormField(
-                      controller: emailController,
-                      style: FxTextStyle.bodyMedium(),
-                      decoration: InputDecoration(
-                          floatingLabelBehavior: FloatingLabelBehavior.never,
-                          filled: true,
-                          isDense: true,
-                          labelStyle: FxTextStyle.bodyMedium(),
-                          fillColor: theme.colorScheme.primaryContainer,
-                          prefixIcon: Icon(
-                            FeatherIcons.mail,
-                            color: theme.colorScheme.onBackground,
+                child: FxContainer.bordered(
+                    color: theme.colorScheme.background,
+                    child: Column(
+                      children: [
+                        FxText.headlineSmall(
+                          'Hello Again!',
+                          fontWeight: 700,
+                          textAlign: TextAlign.center,
+                        ),
+                        FxSpacing.height(20),
+                        TrackingTextInput(
+                          style: FxTextStyle.bodyMedium(),
+                          decoration: InputDecoration(
+                              floatingLabelBehavior:
+                                  FloatingLabelBehavior.never,
+                              filled: true,
+                              isDense: true,
+                              fillColor: theme.cardTheme.color,
+                              prefixIcon: Icon(
+                                FeatherIcons.mail,
+                                color: theme.colorScheme.onBackground,
+                              ),
+                              hintText: "Email Address",
+                              contentPadding: FxSpacing.all(16),
+                              hintStyle: FxTextStyle.bodyMedium(),
+                              isCollapsed: true),
+                          controller: emailController,
+                          validator: (arg) {
+                            var validateArray = {
+                              "required": true,
+                              "pattern":
+                                  r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$',
+                            };
+                            var validateErrorArray = {
+                              "required": requiredMsg,
+                              "pattern": validEmail
+                            };
+                            return (validateInput(
+                                arg, validateArray, validateErrorArray));
+                          },
+                          cursorColor: theme.colorScheme.onBackground,
+                        ),
+                        FxSpacing.height(20),
+                        TrackingTextInput(
+                          isObscured: true,
+                          style: FxTextStyle.bodyMedium(),
+                          decoration: InputDecoration(
+                              floatingLabelBehavior:
+                                  FloatingLabelBehavior.never,
+                              filled: true,
+                              isDense: true,
+                              fillColor: theme.cardTheme.color,
+                              prefixIcon: Icon(
+                                FeatherIcons.lock,
+                                color: theme.colorScheme.onBackground,
+                              ),
+                              hintText: "Password",
+                              contentPadding: FxSpacing.all(16),
+                              hintStyle: FxTextStyle.bodyMedium(),
+                              isCollapsed: true),
+                          controller: passwordController,
+                          validator: (arg) {
+                            var validateArray = {
+                              "required": true,
+                              'minlength': 6
+                            };
+                            var validateErrorArray = {
+                              "required": requiredMsg,
+                              "minlength": passwordLength
+                            };
+                            return (validateInput(
+                                arg, validateArray, validateErrorArray));
+                          },
+                          cursorColor: theme.colorScheme.onBackground,
+                        ),
+                        FxSpacing.height(20),
+                        FxButton.block(
+                          elevation: 0,
+                          borderRadiusAll: 4,
+                          onPressed: () {
+                            final FormState? form = _formKey.currentState;
+                            if (form!.validate()) {
+                              userLogin(emailController.text,
+                                  passwordController.text);
+                            }
+                          },
+                          splashColor:
+                              theme.colorScheme.onPrimary.withAlpha(28),
+                          backgroundColor: theme.colorScheme.primary,
+                          child: FxText.labelMedium(
+                            "Sign In",
+                            fontWeight: 600,
+                            color: theme.colorScheme.onPrimary,
+                            letterSpacing: 0.4,
                           ),
-                          hintText: emialHint,
-                          enabledBorder: outlineInputBorder,
-                          focusedBorder: outlineInputBorder,
-                          border: outlineInputBorder,
-                          contentPadding: FxSpacing.all(16),
-                          hintStyle: FxTextStyle.bodyMedium(),
-                          isCollapsed: true),
-                      maxLines: 1,
-                      cursorColor: theme.colorScheme.onPrimaryContainer,
-                      keyboardType: TextInputType.emailAddress,
-                      validator: (arg) {
-                        var validateArray = {
-                          "required": true,
-                          "pattern":
-                              r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$',
-                        };
-                        var validateErrorArray = {
-                          "required": requiredMsg,
-                          "pattern": validEmail
-                        };
-                        return (validateInput(
-                            arg, validateArray, validateErrorArray));
-                      },
-                    ),
-                    FxSpacing.height(20),
-                    TextFormField(
-                      controller: passwordController,
-                      style: FxTextStyle.bodyMedium(),
-                      obscureText: true,
-                      decoration: InputDecoration(
-                          floatingLabelBehavior: FloatingLabelBehavior.never,
-                          filled: true,
-                          isDense: true,
-                          fillColor: theme.colorScheme.primaryContainer,
-                          prefixIcon: Icon(
-                            FeatherIcons.lock,
-                            color: theme.colorScheme.onBackground,
-                          ),
-                          hintText: passwordHint,
-                          enabledBorder: outlineInputBorder,
-                          focusedBorder: outlineInputBorder,
-                          border: outlineInputBorder,
-                          contentPadding: FxSpacing.all(16),
-                          hintStyle: FxTextStyle.bodyMedium(),
-                          isCollapsed: true),
-                      maxLines: 1,
-                      cursorColor: theme.colorScheme.onBackground,
-                      validator: (arg) {
-                        var validateArray = {"required": true, 'minlength': 6};
-                        var validateErrorArray = {
-                          "required": requiredMsg,
-                          "minlength": passwordLength
-                        };
-                        return (validateInput(
-                            arg, validateArray, validateErrorArray));
-                      },
-                    ),
-                  ],
-                ),
-              ),
-              FxSpacing.height(20),
-              FxButton.block(
-                elevation: 0,
-                borderRadiusAll: Constant.buttonRadius.large,
-                onPressed: () {
-                  final FormState? form = _formKey.currentState;
-                  if (form!.validate()) {
-                    userLogin(emailController.text, passwordController.text);
-                  }
-                },
-                splashColor: theme.colorScheme.onPrimary.withAlpha(30),
-                backgroundColor: theme.colorScheme.primary,
-                child: FxText.labelLarge(
-                  signInBtn,
-                  color: theme.colorScheme.onPrimary,
-                ),
+                        ),
+                      ],
+                    )),
               ),
               FxSpacing.height(16),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  FxButton.text(
-                    onPressed: () {},
-                    padding: FxSpacing.zero,
-                    splashColor: theme.colorScheme.primary.withAlpha(40),
-                    child: FxText.bodySmall(forgotPasswordLink,
-                        color: theme.colorScheme.primary,
-                        decoration: TextDecoration.underline),
-                  ),
                   FxButton.text(
                     onPressed: () {
                       Navigator.push(

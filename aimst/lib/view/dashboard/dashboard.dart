@@ -3,6 +3,7 @@ import 'package:flutterapp/view/dashboard/authdashboard.dart';
 import 'package:flutterapp/view/entrieslist/entrydashboard.dart';
 import 'package:flutterapp/view/entrieslist/entrydashboardloundry.dart';
 import 'package:flutterapp/view/profile/userprofiledetails.dart';
+import 'package:flutterapp/view/profile/userprofileinfo.dart';
 import 'package:flutterapp/utils/preference_utils.dart';
 import 'package:flutterapp/utils/constants.dart';
 
@@ -35,9 +36,9 @@ class _UserDashboardState extends State<UserDashboard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MyAppBar(appTitleText, false),
+      appBar: const MyAppBar('Home', false),
       backgroundColor: const Color(0xFFFFFFFF),
-      endDrawer: const AppMenus(),
+      drawer: const AppMenus(),
       body: FxBottomNavigationBar(
         containerDecoration: BoxDecoration(
           color: customTheme.card,
@@ -46,7 +47,7 @@ class _UserDashboardState extends State<UserDashboard> {
         ),
         activeContainerColor: customTheme.medicarePrimary.withAlpha(30),
         fxBottomNavigationBarType: FxBottomNavigationBarType.containered,
-        showActiveLabel: false,
+        showActiveLabel: true,
         showLabel: false,
         activeIconSize: 24,
         iconSize: 24,
@@ -57,21 +58,33 @@ class _UserDashboardState extends State<UserDashboard> {
             page: const AuthDashboard(),
             activeIconData: Icons.house,
             iconData: Icons.house_outlined,
+            title: "Home",
+            activeTitleStyle: const TextStyle(
+                fontWeight: FontWeight.w600, color: Colors.blue),
           ),
           FxBottomNavigationBarItem(
             page: const EntryDashboard(),
             activeIconData: Icons.date_range,
             iconData: Icons.date_range_outlined,
+            title: "Caferaia",
+            activeTitleStyle: const TextStyle(
+                fontSize: 12, fontWeight: FontWeight.w600, color: Colors.blue),
           ),
           FxBottomNavigationBarItem(
             page: const LoundryEntryDashboard(),
             activeIconData: Icons.collections,
             iconData: Icons.collections,
+            title: "Laundry",
+            activeTitleStyle: const TextStyle(
+                fontWeight: FontWeight.w600, color: Colors.blue),
           ),
           FxBottomNavigationBarItem(
-            page: const UserProfile(),
+            page: const UserProfileInfo(),
             activeIconData: Icons.person,
             iconData: Icons.person_outline_rounded,
+            title: "Profile",
+            activeTitleStyle: const TextStyle(
+                fontWeight: FontWeight.w600, color: Colors.blue),
           ),
         ],
       ),

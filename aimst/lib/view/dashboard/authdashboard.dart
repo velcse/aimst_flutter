@@ -35,7 +35,9 @@ class _GetAuthDashboardState extends State<AuthDashboard> {
   int seconds = 0;
   int authTotken = 0;
   bool tokenGenerated = false;
+  String otpExpired = 'Generate \nAuth\nToken';
   String errorMessage = '';
+  String hourTxt = "00", minuteTxt = "00";
 
   @override
   void initState() {
@@ -43,17 +45,6 @@ class _GetAuthDashboardState extends State<AuthDashboard> {
     _bloc = UserBloc();
     theme = AppTheme.theme;
     appTitleText = Preference.getString(appTitle)!;
-
-    Timer.periodic(const Duration(seconds: 1), (timer) {
-      setState(() {
-        if (seconds > 0) {
-          seconds = seconds - 1;
-        } else if (tokenGenerated) {
-          timer.cancel();
-          tokenGenerated = false;
-        }
-      });
-    });
   }
 
   @override
@@ -63,15 +54,87 @@ class _GetAuthDashboardState extends State<AuthDashboard> {
         backgroundColor: const Color(0xFFFFFFFF),
         endDrawer: const AppMenus(),
         body: ListView(
-          padding: FxSpacing.fromLTRB(16, 25, 16, 16),
+          padding: FxSpacing.fromLTRB(16, 100, 16, 16),
           children: <Widget>[
-            FxText.displaySmall(
-              "Hello ${Preference.getString(userFirstName)}! \nWelcome back to Aimst Student Portal.",
-              fontWeight: 600,
-              fontSize: 25,
-              color: theme.colorScheme.primary,
-            ),
-            _CardWidget(),
+            Container(
+              margin: FxSpacing.x(20),
+              child: FxContainer.bordered(
+                color: Colors.transparent,
+                paddingAll: 0,
+                borderRadiusAll: 4,
+                clipBehavior: Clip.antiAliasWithSaveLayer,
+                border: Border.all(color: theme.colorScheme.primary),
+                child: Stack(
+                  children: <Widget>[
+                    (seconds > 0)
+                        ? Positioned(
+                            right: 30,
+                            top: 60,
+                            child: Column(
+                              children: <Widget>[
+                                FxText.titleMedium(
+                                  "Expires in ",
+                                  fontWeight: 500,
+                                ),
+                                Container(
+                                  margin: const EdgeInsets.only(top: 4),
+                                  child: (seconds < 10)
+                                      ? FxText.titleLarge(
+                                          "$hourTxt : $minuteTxt : 0$seconds",
+                                          fontWeight: 500,
+                                          fontSize: 20)
+                                      : FxText.titleLarge(
+                                          "$hourTxt : $minuteTxt : $seconds",
+                                          fontWeight: 500,
+                                          fontSize: 20,
+                                        ),
+                                )
+                              ],
+                            ))
+                        : Positioned(
+                            right: 30,
+                            top: 60,
+                            child: Container(
+                                margin: const EdgeInsets.only(
+                                    left: 24, right: 24, top: 36),
+                                child: FxButton(
+                                    elevation: 0,
+                                    padding: const EdgeInsets.all(5),
+                                    borderRadiusAll: 4,
+                                    onPressed: () {
+                                      generateAuthKey();
+                                    },
+                                    child: Center(
+                                      child: FxText.bodyMedium("GENERATE",
+                                          color: theme.colorScheme.onPrimary,
+                                          letterSpacing: 0.8,
+                                          fontWeight: 700),
+                                    )))),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width,
+                      height: 180,
+                      child: ClipPath(
+                          clipper: _MyCustomClipper(),
+                          child: Container(
+                            alignment: Alignment.center,
+                            color: theme.colorScheme.primary,
+                          )),
+                    ),
+                    Positioned(
+                      left: 30,
+                      top: 50,
+                      child: FxText.titleLarge(
+                        (seconds > 0) ? authTotken.toString() : otpExpired,
+                        fontWeight: 600,
+                        letterSpacing: 0.3,
+                        fontSize: (seconds > 0) ? 35 : 20,
+                        color: theme.colorScheme.onPrimary,
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            )
           ],
         ));
   }
@@ -165,6 +228,16 @@ class _GetAuthDashboardState extends State<AuthDashboard> {
           seconds = 30;
           errorMessage = '';
           tokenGenerated = true;
+          otpExpired = 'Token\nExpired!';
+        });
+        Timer.periodic(const Duration(seconds: 1), (timer) {
+          setState(() {
+            if (seconds > 0) {
+              seconds = seconds - 1;
+            } else if (tokenGenerated) {
+              timer.cancel();
+            }
+          });
         });
       } else if (response['status'] == false) {
         setState(() {
@@ -180,5 +253,22 @@ class _GetAuthDashboardState extends State<AuthDashboard> {
       errorMessage = apiError;
       EasyLoading.dismiss();
     }
+  }
+}
+
+class _MyCustomClipper extends CustomClipper<Path> {
+  @override
+  Path getClip(Size size) {
+    final path = Path();
+    path.lineTo(size.width * 0.65, 0.0);
+    path.lineTo(size.width * 0.4, size.height);
+    path.lineTo(size.width * 0, size.height);
+    path.close();
+    return path;
+  }
+
+  @override
+  bool shouldReclip(CustomClipper oldClipper) {
+    return true;
   }
 }

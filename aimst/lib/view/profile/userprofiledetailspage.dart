@@ -10,6 +10,7 @@ import 'package:flutterapp/widgets/container/container.dart';
 import 'package:flutterapp/widgets/button/button.dart';
 import 'package:flutterapp/view/login/login_form.dart';
 import 'package:flutterapp/widgets/appbar.dart';
+import 'package:flutterapp/view/profile/userprofileinfo.dart';
 
 String appTitleText = "";
 GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -38,9 +39,9 @@ class _GetUserProfileState extends State<UserProfile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MyAppBar(appTitleText, true),
+      appBar: const MyAppBar("Profile", true),
       backgroundColor: const Color(0xFFFFFFFF),
-      endDrawer: const AppMenus(),
+      drawer: const AppMenus(),
       body: SingleChildScrollView(
         child: Padding(
           padding: FxSpacing.fromLTRB(
@@ -120,7 +121,15 @@ class _GetUserProfileState extends State<UserProfile> {
           xMuted: true,
         ),
         FxSpacing.height(20),
-        singleRow(Icons.dashboard, "Profile", "Your profile details"),
+        GestureDetector(
+          child: singleRow(Icons.dashboard, "Profile", "Your profile details"),
+          onTap: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const UserProfileInfo()));
+          },
+        ),
         const Divider(),
         FxSpacing.height(8),
         singleRow(Icons.location_on, "Address", "Your address details"),

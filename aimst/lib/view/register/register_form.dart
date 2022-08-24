@@ -19,6 +19,8 @@ import 'package:flutterapp/models/country_model.dart';
 import 'package:flutterapp/localizations/en/constants.dart';
 import 'package:flutterapp/utils/validators/form_validate.dart';
 import 'package:flutterapp/blocs/user_bloc.dart';
+import 'package:flare_flutter/flare_actor.dart';
+import 'package:flutterapp/animations/auth/tracking_text_input.dart';
 
 String appTitleText = "";
 GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -160,7 +162,7 @@ class _GetRegisterState extends State<Register> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: MyAppBar(appTitleText, true),
+        appBar: const MyAppBar("Registration", true),
         backgroundColor: const Color(0xFFFFFFFF),
         endDrawer: const AppMenus(),
         body: Column(
@@ -403,7 +405,7 @@ class _GetRegisterState extends State<Register> {
               filled: true,
               isDense: true,
               labelStyle: FxTextStyle.bodyMedium(),
-              fillColor: theme.colorScheme.primaryContainer,
+              fillColor: theme.cardTheme.color,
               prefixIcon: Icon(
                 Icons.account_circle_rounded,
                 color: theme.colorScheme.onBackground,
@@ -432,7 +434,7 @@ class _GetRegisterState extends State<Register> {
               floatingLabelBehavior: FloatingLabelBehavior.never,
               filled: true,
               isDense: true,
-              fillColor: theme.colorScheme.primaryContainer,
+              fillColor: theme.cardTheme.color,
               prefixIcon: Icon(
                 Icons.account_circle_rounded,
                 color: theme.colorScheme.onBackground,
@@ -462,7 +464,7 @@ class _GetRegisterState extends State<Register> {
               filled: true,
               isDense: true,
               labelStyle: FxTextStyle.bodyMedium(),
-              fillColor: theme.colorScheme.primaryContainer,
+              fillColor: theme.cardTheme.color,
               prefixIcon: Icon(
                 Icons.onetwothree,
                 color: theme.colorScheme.onBackground,
@@ -491,7 +493,7 @@ class _GetRegisterState extends State<Register> {
               floatingLabelBehavior: FloatingLabelBehavior.never,
               filled: true,
               isDense: true,
-              fillColor: theme.colorScheme.primaryContainer,
+              fillColor: theme.cardTheme.color,
               prefixIcon: Icon(
                 Icons.onetwothree,
                 color: theme.colorScheme.onBackground,
@@ -524,7 +526,7 @@ class _GetRegisterState extends State<Register> {
               filled: true,
               isDense: true,
               labelStyle: FxTextStyle.bodyMedium(),
-              fillColor: theme.colorScheme.primaryContainer,
+              fillColor: theme.cardTheme.color,
               prefixIcon: Icon(
                 FeatherIcons.mail,
                 color: theme.colorScheme.onBackground,
@@ -561,7 +563,7 @@ class _GetRegisterState extends State<Register> {
               filled: true,
               isDense: true,
               labelStyle: FxTextStyle.bodyMedium(),
-              fillColor: theme.colorScheme.primaryContainer,
+              fillColor: theme.cardTheme.color,
               prefixIcon: Icon(
                 Icons.phone,
                 color: theme.colorScheme.onBackground,
@@ -599,7 +601,7 @@ class _GetRegisterState extends State<Register> {
               floatingLabelBehavior: FloatingLabelBehavior.never,
               filled: true,
               isDense: true,
-              fillColor: theme.colorScheme.primaryContainer,
+              fillColor: theme.cardTheme.color,
               prefixIcon: Icon(
                 FeatherIcons.lock,
                 color: theme.colorScheme.onBackground,
@@ -631,7 +633,7 @@ class _GetRegisterState extends State<Register> {
               filled: true,
               isDense: true,
               labelStyle: FxTextStyle.bodyMedium(),
-              fillColor: theme.colorScheme.primaryContainer,
+              fillColor: theme.cardTheme.color,
               prefixIcon: Icon(
                 Icons.supervised_user_circle_rounded,
                 color: theme.colorScheme.onBackground,
@@ -697,7 +699,7 @@ class _GetRegisterState extends State<Register> {
               filled: true,
               isDense: true,
               labelStyle: FxTextStyle.bodyMedium(),
-              fillColor: theme.colorScheme.primaryContainer,
+              fillColor: theme.cardTheme.color,
               prefixIcon: Icon(
                 Icons.location_on_outlined,
                 color: theme.colorScheme.onBackground,
@@ -725,7 +727,7 @@ class _GetRegisterState extends State<Register> {
               floatingLabelBehavior: FloatingLabelBehavior.never,
               filled: true,
               isDense: true,
-              fillColor: theme.colorScheme.primaryContainer,
+              fillColor: theme.cardTheme.color,
               prefixIcon: Icon(
                 Icons.location_on_outlined,
                 color: theme.colorScheme.onBackground,
@@ -755,7 +757,7 @@ class _GetRegisterState extends State<Register> {
               filled: true,
               isDense: true,
               labelStyle: FxTextStyle.bodyMedium(),
-              fillColor: theme.colorScheme.primaryContainer,
+              fillColor: theme.cardTheme.color,
               prefixIcon: Icon(
                 Icons.home_outlined,
                 color: theme.colorScheme.onBackground,
@@ -783,7 +785,7 @@ class _GetRegisterState extends State<Register> {
               floatingLabelBehavior: FloatingLabelBehavior.never,
               filled: true,
               isDense: true,
-              fillColor: theme.colorScheme.primaryContainer,
+              fillColor: theme.cardTheme.color,
               prefixIcon: Icon(
                 Icons.format_list_numbered_rtl_outlined,
                 color: theme.colorScheme.onBackground,
@@ -816,7 +818,7 @@ class _GetRegisterState extends State<Register> {
               filled: true,
               isDense: true,
               labelStyle: FxTextStyle.bodyMedium(),
-              fillColor: theme.colorScheme.primaryContainer,
+              fillColor: theme.cardTheme.color,
               prefixIcon: Icon(
                 Icons.location_city_outlined,
                 color: theme.colorScheme.onBackground,
@@ -845,7 +847,7 @@ class _GetRegisterState extends State<Register> {
               filled: true,
               isDense: true,
               labelStyle: FxTextStyle.bodyMedium(),
-              fillColor: theme.colorScheme.primaryContainer,
+              fillColor: theme.cardTheme.color,
               prefixIcon: Icon(
                 Icons.location_city,
                 color: theme.colorScheme.onBackground,
@@ -874,7 +876,7 @@ class _GetRegisterState extends State<Register> {
                     filled: true,
                     isDense: true,
                     labelStyle: FxTextStyle.bodyMedium(),
-                    fillColor: theme.colorScheme.primaryContainer,
+                    fillColor: theme.cardTheme.color,
                     prefixIcon: Icon(
                       Icons.map_rounded,
                       color: theme.colorScheme.onBackground,
@@ -944,7 +946,7 @@ class _GetRegisterState extends State<Register> {
                     filled: true,
                     isDense: true,
                     labelStyle: FxTextStyle.bodyMedium(),
-                    fillColor: theme.colorScheme.primaryContainer,
+                    fillColor: theme.cardTheme.color,
                     prefixIcon: Icon(
                       Icons.category,
                       color: theme.colorScheme.onBackground,
@@ -979,7 +981,7 @@ class _GetRegisterState extends State<Register> {
                     filled: true,
                     isDense: true,
                     labelStyle: FxTextStyle.bodyMedium(),
-                    fillColor: theme.colorScheme.primaryContainer,
+                    fillColor: theme.cardTheme.color,
                     prefixIcon: Icon(
                       Icons.category_sharp,
                       color: theme.colorScheme.onBackground,
@@ -1014,7 +1016,7 @@ class _GetRegisterState extends State<Register> {
                     filled: true,
                     isDense: true,
                     labelStyle: FxTextStyle.bodyMedium(),
-                    fillColor: theme.colorScheme.primaryContainer,
+                    fillColor: theme.cardTheme.color,
                     prefixIcon: Icon(
                       Icons.category_outlined,
                       color: theme.colorScheme.onBackground,
@@ -1048,7 +1050,7 @@ class _GetRegisterState extends State<Register> {
               filled: true,
               isDense: true,
               labelStyle: FxTextStyle.bodyMedium(),
-              fillColor: theme.colorScheme.primaryContainer,
+              fillColor: theme.cardTheme.color,
               prefixIcon: Icon(
                 Icons.calendar_today_outlined,
                 color: theme.colorScheme.onBackground,
@@ -1084,7 +1086,7 @@ class _GetRegisterState extends State<Register> {
               filled: true,
               isDense: true,
               labelStyle: FxTextStyle.bodyMedium(),
-              fillColor: theme.colorScheme.primaryContainer,
+              fillColor: theme.cardTheme.color,
               prefixIcon: Icon(
                 Icons.home_filled,
                 color: theme.colorScheme.onBackground,

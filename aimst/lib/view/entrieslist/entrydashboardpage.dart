@@ -39,16 +39,10 @@ class _GetEntryDashboardState extends State<EntryDashboard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: MyAppBar(appTitleText, true),
+        appBar: const MyAppBar('Activity Logs (Cafetaria)', true),
         backgroundColor: const Color(0xFFFFFFFF),
-        endDrawer: const AppMenus(),
+        drawer: const AppMenus(),
         body: ListView(padding: FxSpacing.fromLTRB(24, 18, 24, 24), children: [
-          FxText.titleMedium(
-            'Activity Logs (Cafetaria)',
-            letterSpacing: 0.5,
-            fontWeight: 700,
-          ),
-          FxSpacing.height(16),
           SingleChildScrollView(
               child: Column(children: [
             FutureBuilder<ActivityLogModel>(
@@ -67,70 +61,75 @@ class _GetEntryDashboardState extends State<EntryDashboard> {
                                       color: Colors.white,
                                     ),
                             itemBuilder: (context, index) {
-                              return FxContainer.bordered(
-                                border: Border.all(color: Colors.grey),
+                              return FxContainer(
+                                border: Border.all(color: Colors.white),
                                 color: Colors.white70,
-                                margin: const EdgeInsets.only(bottom: 20),
-                                paddingAll: 16,
-                                borderRadiusAll: 16,
-                                child: Row(
-                                  children: [
-                                    FxContainer(
-                                      width: 56,
-                                      padding: FxSpacing.y(12),
-                                      borderRadiusAll: 4,
-                                      bordered: true,
-                                      border: Border.all(
-                                          color: customTheme.medicarePrimary),
-                                      color: customTheme.medicarePrimary
-                                          .withAlpha(60),
-                                      child: Center(
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: const [
-                                            FxContainer.rounded(
-                                              height: 30,
-                                              paddingAll: 0,
-                                              clipBehavior:
-                                                  Clip.antiAliasWithSaveLayer,
-                                              child: Image(
-                                                fit: BoxFit.cover,
-                                                image: AssetImage(
-                                                    './assets/images/profile/avatar_place.png'),
+                                margin: const EdgeInsets.only(bottom: 5),
+                                paddingAll: 8,
+                                child: Column(children: [
+                                  Row(
+                                    children: [
+                                      FxContainer(
+                                        width: 76,
+                                        padding: FxSpacing.y(12),
+                                        borderRadiusAll: 0,
+                                        bordered: false,
+                                        border: Border.all(color: Colors.white),
+                                        color: Colors.white,
+                                        child: Center(
+                                          child: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: const [
+                                              FxContainer(
+                                                height: 50,
+                                                width: 50,
+                                                paddingAll: 0,
+                                                clipBehavior:
+                                                    Clip.antiAliasWithSaveLayer,
+                                                child: Image(
+                                                  fit: BoxFit.cover,
+                                                  image: AssetImage(
+                                                      'assets/images/apps/food/pasta-1.jpg'),
+                                                ),
                                               ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                      FxSpacing.width(16),
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            FxText.bodySmall(
+                                              snapshot.data!.result[index].slot,
+                                              fontWeight: 600,
+                                              fontSize: 15,
+                                            ),
+                                            FxSpacing.height(4),
+                                            FxText.bodySmall(
+                                              snapshot
+                                                  .data!.result[index].created,
+                                              fontSize: 15,
+                                            ),
+                                            FxSpacing.height(4),
+                                            FxText.bodySmall(
+                                              "Verified By : ${snapshot.data!.result[index].verifedBy}",
+                                              fontSize: 14,
                                             ),
                                           ],
                                         ),
                                       ),
-                                    ),
-                                    FxSpacing.width(16),
-                                    Expanded(
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          FxText.bodySmall(
-                                            snapshot.data!.result[index].slot,
-                                            fontWeight: 600,
-                                            fontSize: 15,
-                                          ),
-                                          FxSpacing.height(4),
-                                          FxText.bodySmall(
-                                            snapshot
-                                                .data!.result[index].created,
-                                            fontSize: 15,
-                                          ),
-                                          FxSpacing.height(4),
-                                          FxText.bodySmall(
-                                            "Verified By : ${snapshot.data!.result[index].verifedBy}",
-                                            fontSize: 14,
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    FxSpacing.width(16),
-                                  ],
-                                ),
+                                      FxSpacing.width(16),
+                                    ],
+                                  ),
+                                  FxSpacing.height(10),
+                                  const Divider(
+                                    thickness: 0.3,
+                                    color: Colors.grey,
+                                  ),
+                                ]),
                               );
                             }));
                   } else {

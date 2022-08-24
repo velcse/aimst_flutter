@@ -4,6 +4,7 @@ import 'package:flutterapp/utils/constants.dart';
 import 'package:flutterapp/view/onboard/index.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutterapp/view/dashboard/dashboard.dart';
+import 'package:flutterapp/widgets/loading_widget.dart' as _loader;
 
 void main() {
   runApp(const MyApp());
@@ -47,18 +48,21 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       body: Center(
         child: Container(
-          decoration: const BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage("assets/images/transparent-bg.png"),
-              fit: BoxFit.cover,
+            padding: const EdgeInsets.only(top: 150),
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage("assets/images/bg4.jpg"),
+                fit: BoxFit.cover,
+              ),
             ),
-          ),
-          // ignore: prefer_const_constructors
-          child: Image(
-            fit: BoxFit.cover,
-            image: const AssetImage('assets/images/aimst_logo.png'),
-          ),
-        ),
+            // ignore: prefer_const_constructors
+            child: Column(children: const [
+              Image(
+                fit: BoxFit.cover,
+                image: AssetImage('assets/images/aimst_logo.png'),
+              ),
+              _loader.Loading(loadingMessage: ""),
+            ])),
       ),
     );
   }
